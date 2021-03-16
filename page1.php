@@ -12,7 +12,7 @@ $PAGE->set_context(context_system::instance());
 
 #self explanatory, the context should prevent guest users from seeing the page but just in case
 require_login();
-if (isguestuser()){
+if (isguestuser()) {
 	die();
 }
 
@@ -21,7 +21,8 @@ $language = get_string("language", "local_test");
 $name = get_string("name", "local_test");
 
 #setup the page
-$PAGE->set_url("/local/test/index.php");
+#setting the url is useful for other plugins so that the moodle navigation bar appears
+$PAGE->set_url("/local/test/page1.php");
 $PAGE->set_title($name);
 $PAGE->set_heading($name);
 
@@ -37,11 +38,11 @@ echo $OUTPUT->header();
 
 #this is basic HTML, <p> is a paragraph. As you can see we have a variable inside the string, which is one of PHP special moves
 $language = get_string("language", "local_test");
-echo("<p> $language </p>");
+echo ("<p> $language </p>");
 
 #<a> is a link
 $next_page = get_string("next_page", "local_test");
-echo("<a href='nextpage.php'> $next_page </a>");
+echo ("<a href='page2.php'> $next_page </a>");
 
 #the moodle bottom
 echo $OUTPUT->footer();

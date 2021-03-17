@@ -1,5 +1,9 @@
 <?PHP
 #PAGE 6: READING UPLOADED FILES 
+#to read files uploaded we need to implement a function to get us the file from an url, this function can be found in lib.php
+#important reads
+#https://docs.moodle.org/dev/File_API
+#https://docs.moodle.org/dev/Using_the_File_API_in_Moodle_forms
 
 require_once("../../config.php");
 
@@ -16,13 +20,23 @@ $PAGE->set_heading("File read");
 
 echo $OUTPUT->header();
 
-#select 5 files
-$path = "$CFG->dataroot/local/getting_started";
-$files = $DB->get_records("local_getting_started", null, '', '*', 0, 5);
+/*
+#this code checks the number of files in the file area
+$files = file_get_file_area_info(context_system::instance()->id,"local_getting_started", "files");
+var_dump($files);
+*/
+
+#get all uploaded files
+$files = $DB->get_records("local_getting_started");
 
 foreach ($files as $file) {
-    echo "<a href='$path/$file->filename'> <p> File </p> </a>";
+    #we make the url that gets us the data
+    $url = moodle_url::make_pluginfile_url(context_system::instance()->id, "local_getting_started", "files", 0, "/", "$file->filename");
+
+    #and simply show it
+    echo "<p> <a href='$url'> $file->filename by $file->uploader </a> </p>";
 }
+
 
 
 echo $OUTPUT->footer();

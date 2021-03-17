@@ -1,11 +1,12 @@
 <?PHP
 #PAGE 5: UPLOADING FILES
-#this is fucking painful 
 
 require_once("../../config.php");
 require_once("forms.php");
 
-$PAGE->set_context(context_system::instance());
+$context = context_system::instance();
+
+$PAGE->set_context($context);
 
 require_login();
 if (isguestuser()) {
@@ -18,49 +19,44 @@ $PAGE->set_heading("File upload");
 
 echo $OUTPUT->header();
 
+#we add the upload form, which contains a filepicker
 $mform = new upload_file_form();
 
 if ($mform->is_cancelled()) {
     echo ("Form cancelled");
 } else if ($data = $mform->get_data()) {
 
-    #the path to store the file
-    $path = "$CFG->dataroot/local/getting_started";
+    #we extract the extension from the uploaded file, since we need to store it
+    $extension = pathinfo($mform->get_new_filename('userfile'), PATHINFO_EXTENSION);
 
-    #if the path doesn't exist, create it
-    if (!file_exists($path)) {
-        mkdir($path, 0777, true);
-    }
-
-    #get the uploaded file extension
-    $ext = pathinfo($mform->get_new_filename('userfile'), PATHINFO_EXTENSION);
-
-    #get the uploader user id
-    $uploader = $USER->id;
-    
-    #get the current time
+    #we create a new name for the file, to get a unique one we get the user id and the unix time
     $time = strtotime(date("d-m-Y H:s:i"));
+    $name = "$USER->id-$time.$extension";
 
-    #make the file name
-    #the name includes the user and the time, so the names can't repeat
-    $name = "$uploader-$time.$ext";
+    #we store the file
+    #userfile is the filepicker name
+    #context->id is the context we want the file to have? I don't know how it works
+    #local_getting_started is the component name (plugin name)
+    #files is the filearea name, it can be anything we want
+    #0 is the itemid, the file area unique id
+    # / is the folder within the filearea, / is the root, or the first foler
+    #$name is the new name for the file
+    $result = $mform->save_stored_file("userfile", $context->id, "local_getting_started", "files", 0, "/", $name);
 
-    #store the file
-    $success = $mform->save_file("userfile", "$path/$name");
+    if($result) 
+    {
+        echo "<p> Success, file uploaded, name: $name </p>";
 
-    if ($success) {
-        echo "<p> Success, file uploaded at $path/$name </p>";
-
-        #we create an object to store in the db
+        #we create a new entry in the db, storing the user who uploaded the thing and the file name
         $object = new stdClass();
-        $object->uploader = $uploader;
+        $object->uploader = $USER->id;
         $object->filename = $name;
-
-        #we insert the object into the db, in the table called "getting_started"
         $DB->insert_record("local_getting_started", $object);
-    } else {
-        echo "<p> Error, couldn't upload the file </p>";
     }
+    else {
+        echo "<p> Failure, couln't upload file </p>";
+    }
+
 } else {
     $mform->display();
 }

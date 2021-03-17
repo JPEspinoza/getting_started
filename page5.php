@@ -37,24 +37,27 @@ if ($mform->is_cancelled()) {
 
     #get the uploader user id
     $uploader = $USER->id;
+    
+    #get the current time
+    $time = strtotime(date("d-m-Y H:s:i"));
 
-    #get the id of the last uploaded file and add 1 to get the new file id
-    $table = "local_getting_started"; #table to read from
-    $conditions = null; #select everything, no conditions
-    $id = $DB->count_records($table, $conditions) + 1;
+    #make the file name
+    #the name includes the user and the time, so the names can't repeat
+    $name = "$uploader-$time.$ext";
 
     #store the file
-    $success = $mform->save_file("userfile", "$path/$id.$ext");
+    $success = $mform->save_file("userfile", "$path/$name");
 
     if ($success) {
-        echo "<p> Success, file uploaded at $path/$id.$ext </p>";
+        echo "<p> Success, file uploaded at $path/$name </p>";
 
         #we create an object to store in the db
         $object = new stdClass();
         $object->uploader = $uploader;
+        $object->filename = $name;
 
-        #we insert the object into the db
-        $DB->insert_record($table, $object);
+        #we insert the object into the db, in the table called "getting_started"
+        $DB->insert_record("local_getting_started", $object);
     } else {
         echo "<p> Error, couldn't upload the file </p>";
     }
@@ -62,6 +65,6 @@ if ($mform->is_cancelled()) {
     $mform->display();
 }
 
-echo "<br><a href='page6.php'> Next Page </a>";
+echo "<a href='page6.php'> Next Page </a>";
 
 echo $OUTPUT->footer();

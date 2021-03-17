@@ -16,7 +16,13 @@ $PAGE->set_heading("File read");
 
 echo $OUTPUT->header();
 
-$url = moodle_url::make_pluginfile_url(context_system::instance()->id, "local_getting_started", "files", 0, '/', "a.pdf");
-redirect($url);
+#select 5 files
+$path = "$CFG->dataroot/local/getting_started";
+$files = $DB->get_records("local_getting_started", null, '', '*', 0, 5);
+
+foreach ($files as $file) {
+    echo "<a href='$path/$file->filename'> <p> File </p> </a>";
+}
+
 
 echo $OUTPUT->footer();

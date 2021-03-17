@@ -44,7 +44,6 @@ class example_form extends moodleform
     }
 }
 
-
 class upload_file_form extends moodleform
 {
     public function definition()

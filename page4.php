@@ -1,5 +1,5 @@
 <?php
-#PAGE 3: THE DATABASE
+#PAGE 4: THE DATABASE
 
 #The database starts with understading SQL
 #designing the database
@@ -15,11 +15,14 @@ if (isguestuser()) {
 
 $PAGE->set_context(context_system::instance());
 
-$name = get_string("name", "local_test");
-$PAGE->set_url("/local/test/index.php");
+$name = get_string("name", "local_getting_started");
+
+$PAGE->set_url("/local/getting_started/page4.php");
 $PAGE->set_title($name);
 $PAGE->set_heading($name);
 
 echo $OUTPUT->header();
+
+echo "<a href='page5.php'> Next page </a>";
 
 echo $OUTPUT->footer();

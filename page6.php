@@ -1,5 +1,5 @@
 <?PHP
-#PAGE 5: READING UPLOADED FILES 
+#PAGE 6: READING UPLOADED FILES 
 
 require_once("../../config.php");
 
@@ -10,19 +10,13 @@ if (isguestuser()) {
     die();
 }
 
-$PAGE->set_url("/local/test/page6.php");
+$PAGE->set_url("/local/getting_started/page6.php");
 $PAGE->set_title("File read");
 $PAGE->set_heading("File read");
 
 echo $OUTPUT->header();
 
-$files = $DB->get_records("test_files");
-
-foreach($files as $file) {
-    $messagetext = file_rewrite_pluginfile_urls("Test", "pluginfile.php", 30, "local_test", "upload", $file->path);
-    var_dump($messagetext);
-
-    echo "<br>";
-}
+$url = moodle_url::make_pluginfile_url(context_system::instance()->id, "local_getting_started", "files", 0, '/', "a.pdf");
+redirect($url);
 
 echo $OUTPUT->footer();

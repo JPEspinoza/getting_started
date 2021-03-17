@@ -17,12 +17,11 @@ if (isguestuser()) {
 }
 
 #this is how you get strings from the lang folder, the language is chosen automatically
-$language = get_string("language", "local_test");
-$name = get_string("name", "local_test");
+$language = get_string("language", "local_getting_started");
+$name = get_string("name", "local_getting_started");
 
 #setup the page
-#setting the url is useful for other plugins so that the moodle navigation bar appears
-$PAGE->set_url("/local/test/page1.php");
+$PAGE->set_url("/local/getting/getting_started/page1.php");
 $PAGE->set_title($name);
 $PAGE->set_heading($name);
 
@@ -37,11 +36,11 @@ echo $OUTPUT->header();
 #I like HTML as its far simpler, but its less portable and changing the theme might break it
 
 #this is basic HTML, <p> is a paragraph. As you can see we have a variable inside the string, which is one of PHP special moves
-$language = get_string("language", "local_test");
+$language = get_string("language", "local_getting_started");
 echo ("<p> $language </p>");
 
 #<a> is a link
-$next_page = get_string("next_page", "local_test");
+$next_page = get_string("next_page", "local_getting_started");
 echo ("<a href='page2.php'> $next_page </a>");
 
 #the moodle bottom

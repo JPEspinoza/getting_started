@@ -34,9 +34,9 @@ class example_form extends moodleform
         $errors = array();
 
         #if name has lenght 0 fail
-        if ($data['name'] === "") {
+        if ($data['name'] == "") {
             #add the error to the array
-            $errors[] = "Name can't be empty";
+            $errors["name"] = get_string("name_empty", "local_getting_started");
         }
 
         #return the errors, they will be shown when the 

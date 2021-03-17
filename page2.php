@@ -3,7 +3,7 @@
 
 require_once("../../config.php");
 
-#we require our form library, where we program the forms we wil luse
+#we require our form library, where we program the forms we will use
 require_once("forms.php");
 
 require_login();
@@ -13,11 +13,9 @@ if (isguestuser()) {
 
 $PAGE->set_context(context_system::instance());
 
-$name = get_string("name", "local_getting_started");
-
 $PAGE->set_url("/local/getting/getting_started/page2.php");
-$PAGE->set_title($name);
-$PAGE->set_heading($name);
+$PAGE->set_title(get_string("pluginname", "local_getting_started"));
+$PAGE->set_heading(get_string("page2", "local_getting_started"));
 
 echo $OUTPUT->header();
 
@@ -28,15 +26,18 @@ $mform = new example_form();
 #handle the form
 #first case runs if the form is cancelled
 if ($mform->is_cancelled()) {
-	echo ("Form cancelled");
+	$formcancelled = get_string("form_cancelled", "local_getting_started");
+	echo ("<p>$formcancelled</p>");
 }
 #this case runs when the form is successful
 else if ($fromform = $mform->get_data()) {
 	#data is in $fromform now
 	$name = $fromform->name;
-	echo ("<p> Your name is: $name </p>");
+	$yourname = get_string("username", "local_getting_started");
 	$next_page = get_string("next_page", "local_getting_started");
-	echo "<a href='page3.php'> $next_page </a>";
+
+	echo ("<p> $yourname: $name </p>");
+	echo ("<a href='page3.php'> $next_page </a>");
 }
 #this case runs when the data validation fails or the form hasnt been shown yet
 else {

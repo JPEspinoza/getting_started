@@ -14,8 +14,8 @@ if (isguestuser()) {
 }
 
 $PAGE->set_url("/local/getting_started/page5.php");
-$PAGE->set_title("File upload");
-$PAGE->set_heading("File upload");
+$PAGE->set_title(get_string("pluginname", "local_getting_started"));
+$PAGE->set_heading(get_string("page5", "local_getting_started"));
 
 echo $OUTPUT->header();
 
@@ -23,7 +23,8 @@ echo $OUTPUT->header();
 $mform = new upload_file_form();
 
 if ($mform->is_cancelled()) {
-    echo ("Form cancelled");
+    $form_cancelled = get_string("form_cancelled", "local_getting_started");
+    echo ("<p> $form_cancelled </p>");
 } else if ($data = $mform->get_data()) {
 
     #we extract the extension from the uploaded file, since we need to store it
@@ -45,7 +46,8 @@ if ($mform->is_cancelled()) {
 
     if($result) 
     {
-        echo "<p> Success, file uploaded, name: $name </p>";
+        $file_uploaded = get_string("file_uploaded", "local_getting_started");
+        echo "<p> $file_uploaded: $name </p>";
 
         #we create a new entry in the db, storing the user who uploaded the thing and the file name
         $object = new stdClass();
@@ -54,13 +56,15 @@ if ($mform->is_cancelled()) {
         $DB->insert_record("local_getting_started", $object);
     }
     else {
-        echo "<p> Failure, couln't upload file </p>";
+        $file_failure = get_string("file_uploaded_file", "local_getting_started");
+        echo "<p> $file_failure </p>";
     }
 
 } else {
     $mform->display();
 }
 
-echo "<a href='page6.php'> Next Page </a>";
+$next_page = get_string("next_page", "local_getting_started");
+echo "<a href='page6.php'> $next_page </a>";
 
 echo $OUTPUT->footer();

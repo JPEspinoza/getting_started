@@ -15,8 +15,8 @@ if (isguestuser()) {
 }
 
 $PAGE->set_url("/local/getting_started/page6.php");
-$PAGE->set_title("File read");
-$PAGE->set_heading("File read");
+$PAGE->set_title(get_string("pluginname", "local_getting_started"));
+$PAGE->set_heading(get_string("page6", "local_getting_started"));
 
 echo $OUTPUT->header();
 
@@ -34,7 +34,8 @@ foreach ($files as $file) {
     $url = moodle_url::make_pluginfile_url(context_system::instance()->id, "local_getting_started", "files", 0, "/", "$file->filename");
 
     #and simply show it
-    echo "<p> <a href='$url'> $file->filename by $file->uploader </a> </p>";
+    $by = get_string("by", "local_getting_started");
+    echo "<p> <a href='$url'> $file->filename $by $file->uploader </a> </p>";
 }
 
 

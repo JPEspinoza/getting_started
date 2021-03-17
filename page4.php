@@ -15,14 +15,13 @@ if (isguestuser()) {
 
 $PAGE->set_context(context_system::instance());
 
-$name = get_string("name", "local_getting_started");
-
 $PAGE->set_url("/local/getting_started/page4.php");
-$PAGE->set_title($name);
-$PAGE->set_heading($name);
+$PAGE->set_title(get_string("pluginname", "local_getting_started"));
+$PAGE->set_heading(get_string("page4", "local_getting_started"));
 
 echo $OUTPUT->header();
 
-echo "<a href='page5.php'> Next page </a>";
+$next_page = get_string("next_page", "local_getting_started");
+echo "<a href='page5.php'> $next_page </a>";
 
 echo $OUTPUT->footer();

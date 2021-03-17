@@ -5,8 +5,10 @@
 require_once("../../config.php");
 
 #set context
-#the context is extremely important, https://docs.moodle.org/310/en/Context
-#its basically a permission system to disallow users to access admin pages or courses they arent in
+#the context is extremely important
+#https://docs.moodle.org/310/en/Context
+#https://docs.moodle.org/dev/Roles#Context
+#its basically a permission system to allow or disallow users from doing things in specific places
 #usually this is already done in the plugins though, so we usually don't have to worry about it
 $PAGE->set_context(context_system::instance());
 
@@ -17,16 +19,15 @@ if (isguestuser()) {
 }
 
 #this is how you get strings from the lang folder, the language is chosen automatically
-$language = get_string("language", "local_getting_started");
-$name = get_string("name", "local_getting_started");
+$pluginname = get_string("pluginname", "local_getting_started");
+$page = get_string("page1", "local_getting_started");
 
 #setup the page
 $PAGE->set_url("/local/getting/getting_started/page1.php");
-$PAGE->set_title($name);
-$PAGE->set_heading($name);
+$PAGE->set_title($pluginname);
+$PAGE->set_heading($page);
 
 #Here we finished setting up the page itself, now we output things to see in the browser
-
 #The moodle header
 echo $OUTPUT->header();
 
